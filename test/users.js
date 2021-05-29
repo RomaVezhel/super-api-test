@@ -6,7 +6,7 @@ const request = supertest('https://gorest.co.in/public-api/');
 const TOKEN = 'dd0cf3e32e432c3f28b4c907761794b6659f42e436b56ba4b3a79d90835efc72';
 
 describe('Users', function () {
-    it.skip('GET /users', function () {    //done
+    it('GET /users', function () {    //done
         // request                                   // callback
         //     .get(`users?access-token=${TOKEN}`)
         //     .end(function (err, res) {
@@ -22,7 +22,7 @@ describe('Users', function () {
             });
     });
 
-    it.skip('GET /user/ :id', function () {
+    it('GET /user/ :id', function () {
         return request
             .get(`users/2?access-token=${TOKEN}`)
             .then(function (res) {
@@ -30,7 +30,7 @@ describe('Users', function () {
             });
     })
 
-    it('GET /user/ :id', function () {
+    it('GET /users with query param', function () {
         const URL = `users?access-token=${TOKEN}&page=5&gender=Female&status=Active`
 
         return request
@@ -47,4 +47,23 @@ describe('Users', function () {
                 })
             });
     })
+
+    it.only('POST /users', function () {
+        const data = {
+            email: `test${Math.floor(Math.random() * 9999)}@mail.ca`,
+            name: 'Test Name',
+            gender: 'Male',
+            status: 'Inactive'
+        };
+
+        return request
+            .post('users')
+            .set('Authorization', `Bearer ${TOKEN}`)
+            .send(data)
+            .then((res) => {
+                expect(res.body.data).to.deep.include(data);         // verified all data
+
+            })
+
+    });
 });
