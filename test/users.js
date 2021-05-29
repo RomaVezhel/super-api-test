@@ -24,9 +24,10 @@ describe('Users', function () {
 
     it('GET /user/ :id', function () {
         return request
-            .get(`users/2?access-token=${TOKEN}`)
+            .get(`users/77?access-token=${TOKEN}`)
             .then(function (res) {
-                expect(res.body.data.id).to.be.eq(2);
+                // expect(res.body.data.id).to.be.eq(2);
+                console.log(res.body.data)
             });
     })
 
@@ -48,7 +49,7 @@ describe('Users', function () {
             });
     })
 
-    it.only('POST /users', function () {
+    it('POST /users', function () {
         const data = {
             email: `test${Math.floor(Math.random() * 9999)}@mail.ca`,
             name: 'Test Name',
@@ -63,6 +64,30 @@ describe('Users', function () {
             .then((res) => {
                 expect(res.body.data).to.deep.include(data);         // verified all data
 
+            })
+
+    });
+
+    it('PUT /users', function () {
+        const data = {
+            name: 'Test Name',
+        };
+
+        return request
+            .put('users/77')
+            .set('Authorization', `Bearer ${TOKEN}`)
+            .send(data)
+            .then((res) => {
+                expect(res.body.data.name).to.eq(data.name);         // verified all data
+            })
+    });
+
+    it.only('DELETE /users/ :id', function () {
+        return request
+            .delete('users/157')
+            .set('Authorization', `Bearer ${TOKEN}`)
+            .then((res) => {
+                expect(res.body.data).to.eq(null)
             })
 
     });
