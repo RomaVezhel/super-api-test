@@ -5,7 +5,7 @@ import {expect} from 'chai';
 const request = supertest('https://gorest.co.in/public-api/');
 const TOKEN = 'dd0cf3e32e432c3f28b4c907761794b6659f42e436b56ba4b3a79d90835efc72';
 
-describe('Users', function () {
+describe.skip('Users', function () {
     it('GET /users', function () {    //done
         // request                                   // callback
         //     .get(`users?access-token=${TOKEN}`)
@@ -82,7 +82,7 @@ describe('Users', function () {
             })
     });
 
-    it.only('DELETE /users/ :id', function () {
+    it('DELETE /users/ :id', function () {
         return request
             .delete('users/157')
             .set('Authorization', `Bearer ${TOKEN}`)
